@@ -25,8 +25,24 @@ __start:		# execution starts here
 # mipsmark. Put your answer between dashed lines.
 #-------------- start cut -----------------------
 
-#  Student:		Account:
+#  Student:	Mengqi Li	Account: mli
 
+la $t2, chararray			#t2 points to the string
+li $t1, 'A'
+nextCh: lb $t0, ($t2)		#get a byte from string
+		beqz $t0, strEnd	#zero means end of string
+		bne $t0, 'a', nota
+		sb $t1, ($t2)		#store upper case
+nota: 	add $t2, 1			#move pointer one character
+		j nextCh
+
+strEnd:
+		la $a0, chararray
+		li $v0, 4
+		syscall				# print
+		
+		li $v0, 10
+		syscall				# au revoir...
 
 #--------------  end cut  -----------------------
 # Any changes below this line will be discarded by
