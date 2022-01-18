@@ -1,0 +1,79 @@
+#/*# Start of file math6.a */
+#
+#/*# MIPSMARK 1.0 1/5/98 Copyright 1998 J. Waldron. */
+#
+## Question:     (Linear interpolation)
+## Given a straight line and a value x, 
+##      find the value y so that (x,y) is on the line
+## The line is given by its slope dy/dx as integers, 
+##     and the y-axis intercept
+##
+##  Since we are doing integer arithmetic, the answer will not be exact
+##  Divide as late as possible, and ignore possible remainder
+##
+#/*# Output format must be:		*/
+#/*# "answer = 13"		*/
+#include <stdio.h>       /* for printf in C programs */
+
+#/*##############################################
+#					 	#
+#		text segment			#
+#						#
+#################################################
+
+	.text		
+       	.globl __start 
+__start:		# execution starts here  */
+
+
+#/* Any changes above this line will be discarded by
+# mipsmark. Put your answer between dashed lines. */
+#/*-------------- start cut ----------------------- */
+
+#/*  Student's Name: Mengqi Li		Account:mli	*/
+
+lw $t0, x			#load word into register
+lw $t1, dy
+lw $t2, dx
+lw $t3, intercept
+
+mul $t4, $t0, $t1
+div $t4, $t4, $t2
+add $t4, $t4, $t3
+
+la $a0, ans
+li $v0, 4
+syscall
+
+move $a0, $t4 
+li $v0, 1
+syscall
+
+la $a0, endl
+li $v0, 4
+syscall
+
+li $v0, 10
+syscall
+
+#/*--------------  end cut  -----------------------
+# Any changes below this line will be discarded by
+# mipsmark. Put your answer between dashed lines.
+
+#################################################
+#                                               #
+#               data segment                    #
+#                                               #
+#################################################
+
+        .data			#*/
+x:	.word 9		#find y for this value
+dy:	.word 10	# vertical rise
+dx:	.word 6		# horizontal run
+intercept: .word -2	#line crosses y-axis here
+y:	.word -99	#may optionally use this memory...
+temp:	.word  0
+ans:	.asciiz "answer = "
+endl:	.asciiz "\n"
+#
+#/*# End of file math6.a		*/

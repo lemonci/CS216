@@ -1,0 +1,46 @@
+## Start of file loop3.a
+##
+## MIPSMARK 1.0 1/5/98 Copyright 1998 J. Waldron.
+##
+## Question:
+## Replace all occurences of 'a' with
+## 'A' in the string "chararray" and
+## print the resulting string.
+##
+## Output format must be:
+## "AbbbAAbbbAbAbAb"
+
+#################################################
+#					 	#
+#		text segment			#
+#						#
+#################################################
+
+	.text		
+       	.globl __start 
+__start:		# execution starts here
+
+
+# Any changes above this line will be discarded by
+# mipsmark. Put your answer between dashed lines.
+#-------------- start cut -----------------------
+
+#  Student:		Account:
+
+
+#--------------  end cut  -----------------------
+# Any changes below this line will be discarded by
+# mipsmark. Put your answer between dashed lines.
+
+#################################################
+#                                               #
+#               data segment                    #
+#                                               #
+#################################################
+
+        .data
+chararray:
+	.asciiz "abbbaabbbababab\n"
+
+##
+## End of file loop3.a
