@@ -36,7 +36,7 @@ __start:		# execution starts here  */
 	
 loop:	lw $t5, ($t0)
 		beqz $t1, end		# if count == 0, array has been read through
-		bgtu $t5, $t4, con	# if number >= 100
+		bge $t5, $t4, con	# if number >= 100
 		bge $t3, $t5, con	# if number <= 50
 		add $t2, $t2, 1		# counter + 1
 		
