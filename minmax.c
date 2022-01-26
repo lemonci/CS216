@@ -20,7 +20,19 @@ int main ()
 /*------------------ start cut --------------------------*/
 /* Student ------             */
 	/* declare ADDITIONAL variables here, AFTER "start cut" */
-
+		mymin = arr[0];
+		mymax = arr[0];
+		int i;
+		for(i=1; i < SIZE; i++)	//for loop to print 1-10 numbers
+		{
+			if (mymin > arr[i])
+				{mymin = arr[i];}
+			else 
+				{}
+			if (mymax < arr[i])
+				{mymax = arr[i];}
+			else {}
+		}
 
 /*----------------------- end cut -----------------------*/
     printf ("The minumum = %d and the %s = %d\n", mymin,"maximum", mymax);

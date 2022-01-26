@@ -1,0 +1,76 @@
+#/*# Start of file loop6.a */
+#
+#/*# MIPSMARK 1.0 1/5/98 Copyright 1998 J. Waldron. */
+#
+## Question:
+## "numbers" is an array of five words.
+## Calculate the sum of all elements in "numbers"
+## whose value is less than 1000.
+##
+#/*# Output format must be:		*/
+#/*# "sum = 11"		*/
+#include <stdio.h>       /* for printf in C programs */
+
+#/*##############################################
+#					 	#
+#		text segment			#
+#						#
+#################################################
+
+	.text		
+       	.globl __start 
+__start:		# execution starts here  */
+
+
+#/* Any changes above this line will be discarded by
+# mipsmark. Put your answer between dashed lines.
+#-------------- start cut -----------------------
+
+#  Student's Name: Mengqi LI	Account: mli		*/
+	la $t0, numbers		# $t0 will point to elements
+	li $t1, 0			# $t1 will be the sum
+	li $t2, 5			# $t2 will be the counter
+	li $t3, 1000		# bound 1000
+
+loop:	beqz $t2, end		# if count == 0, array has been read through
+		lw $t4, ($t0)
+		bge $t4, $t3, con	# if number > 1000, branch to con
+		add $t1, $t4, $t1		# t1 += t4
+		
+con:	sub $t2, $t2, 1		# count - 1
+		add $t0, $t0, 4		# increment pointer
+		j loop
+
+end:
+		la $a0, ans			# system call to print
+		li $v0, 4			# out a message
+		syscall
+		
+		move $a0, $t1		# system call to print
+		li $v0, 1			# out the sum
+		syscall
+		
+		la $a0, endl		# system call to print
+		li $v0, 4			# out a newline
+		syscall
+		
+		li $v0, 10
+		syscall				# au revoir...
+
+#/*--------------  end cut  -----------------------
+# Any changes below this line will be discarded by
+# mipsmark. Put your answer between dashed lines.
+
+#################################################
+#                                               #
+#               data segment                    #
+#                                               #
+#################################################
+
+        .data			#*/
+numbers:	
+	.word 3,2000,2,6,2000
+ans:	.asciiz "sum = "
+endl:	.asciiz "\n"
+#
+#/*# End of file loop6.a		*/
