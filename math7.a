@@ -39,9 +39,9 @@ lw $t0, distance	#load words into register
 lw $t1, speed
 
 div $t2, $t0, $t1	# hour: t2 = t0 / t1
-mul $t3, $t2, $t1   # t3: distance walked in the whole hour
-sub $t0, $t0, $t3	# t0 = t0 - t3
-mul $t0, $t0, 60	# multiply the remaining distance by 60
+mul $t3, $t2, $t1   # t3: distance walked in the whole hours
+sub $t0, $t0, $t3	# t0 = t0 - t3 distance to be walked in the remaining minutes
+mul $t0, $t0, 60	# multiply the remaining distance by 60 (convert to minutes)
 div $t3, $t0, $t1	# t3: minutes
 
 move $a0, $t2		# print result on terminal

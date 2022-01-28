@@ -32,28 +32,28 @@ __start:		# execution starts here  */
 
 #/*  Student's Name: Mengqi Li		Account:mli	*/
 
-lw $t0, x			#load word into register
+lw $t0, x			# load words into register
 lw $t1, dy
 lw $t2, dx
 lw $t3, intercept
 
-mul $t4, $t0, $t1
-div $t4, $t4, $t2
-add $t4, $t4, $t3
+mul $t4, $t0, $t1	# t4 = t0 * t1, i.e. t4 = x * dy
+div $t4, $t4, $t2	# t4 = t4 / t2, i.e. t4 = x * dy / dx = slope * x
+add $t4, $t4, $t3	# t4 = t4 + t3, i.e. t4 = slope * x + intercept
 
-la $a0, ans
+la $a0, ans			# system call to print
 li $v0, 4
 syscall
 
-move $a0, $t4 
+move $a0, $t4 		# print result on terminal
 li $v0, 1
 syscall
 
-la $a0, endl
-li $v0, 4
+la $a0, endl		# system call to print
+li $v0, 4			# out a newline
 syscall
 
-li $v0, 10
+li $v0, 10			#au revoir...
 syscall
 
 #/*--------------  end cut  -----------------------
