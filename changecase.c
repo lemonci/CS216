@@ -26,14 +26,16 @@ char teststr[] = "look OUT For CAPSlOCK!\n";
 void sentenceCase(char* s)
 {
   /* YOUR CODE GOES HERE */
-  char ch = *s;
+  while((*s <'A') || ('Z'<*s && *s<'a') || (*s>'z'))	//if not letter
+  {s++;}	//move the pointer
+  char ch = *s;	//first letter
   *s++ = ch & ~0x20;  // AND, case bit 0 for upper case
 
 //  printf("%c\n", *s);
   
   while(ch = *s)
   {
-    if (ch >='A')    /* assume letter*/
+    if ((ch >='A' && ch <='Z')||(ch >='a' && ch <='z'))    /* assume letter*/
     {
       *s = ch | 0x20;  // OR, case bit 1 for lower case
     }
@@ -41,8 +43,7 @@ void sentenceCase(char* s)
     {
       *s = ch;  // just copy
     }
-//    printf("%c\n", *s);
-    *s++;    
+    *s++;    // move pointer
   }
   
 }
