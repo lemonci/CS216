@@ -70,7 +70,7 @@ void rearrange (int a[], int length) { // use swap to put even numbers first
 		}
 		else{
 			if (*rp % 2 != 0){ // if the right pointer points to a even number
-				rp--; // decrement the left pointer
+				rp--; // decrement the right pointer
 			}
 			else{
 				swap(lp, rp); // otherwise, swap the values pointed by the left and right pointer
