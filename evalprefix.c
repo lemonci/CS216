@@ -78,7 +78,9 @@ int preval(FILE * f) {
 			case '+': return a + b;
 			case '-': return a - b;
 			case '*': return a * b;
-			case '/': return a / b;
+			case '/': 
+				if (!b) {printf("Invalid operator: %c\n, -op"); exit(0);}
+				else	return a / b;
 		}
 	printf("Invalid operator: %c\n, -op"); // print error message
 	exit(0); // exit with 0
