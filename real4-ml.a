@@ -1,0 +1,92 @@
+#/*# Start of file real4.a */
+#
+#/*# MIPSMARK 1.0 1/5/98 Copyright 1998 J. Waldron. */
+#
+##	Write a function ffact that will compute
+##	the Factorial of the integer passed in $a0
+##		0! = 1! = 1.0
+##		n! = (n-1)! * n
+##	calculate it as a real number using double precision
+##	as factorials get very large very soon
+##
+##	return the answer in coprocessor register $f12
+#/*# Output format must be:		*/
+#/*# "5! is 120"		*/
+
+
+#/*##############################################
+#					 	#
+#		text segment			#
+#						#
+#################################################
+
+	.text		
+       	.globl __start 
+__start:		# execution starts here  */
+
+	la $a0,ans	# print a string n 
+	li $v0,4
+	syscall
+
+	lw $a0, num
+	jal ffact	#to calculate num! (factorial)
+	li $v0,3	#print DOUBLE in $f12, as returned
+	syscall
+	li $v0,4	#print endline
+	la $a0,endl
+	syscall
+
+	li $v0,10	#exit
+	syscall
+
+#/* Any changes above this line will be discarded by
+# mipsmark. Put your answer between dashed lines. */
+#/*-------------- start cut ----------------------- */
+
+#/*  Student's Name: Mengqi Li	Account: mli		*/
+
+#/*
+#	j __start	#nasty loop if mips program not exited */
+
+
+ffact:
+	bgtz  $a0, doit
+        li   $v0, 1      # base case, 0! = 1
+        mtc1 $v0, $f11	 # move v0 to the coprocessor $f11
+        cvt.d.w $f12,$f11	# convert $v0 into double and store in $f12
+        jr   $ra
+doit:
+    sub  $sp, $sp, 8           # stack frame
+    sw   $s0,($sp)       # will use for argument n   
+    sw   $ra, 4($sp)      #  return address
+
+    move $s0, $a0        #  save argument
+    sub  $a0, $a0, 1          #  n-1
+    jal  ffact       	# v0 = (n-1)!
+    mtc1 $s0,$f0	# move s0 to the coprocessor $f0
+    cvt.d.w $f1,$f0	# convert $s0 into double and store in $f1
+    mul.d   $f12, $f1, $f12
+    #mul  $v0,$s0,$v0     n*(n-1)!
+
+    lw   $s0,($sp)       # restore registers from stack
+    lw   $ra,4($sp) 
+    add  $sp,$sp,8
+    jr   $ra
+
+
+#/*--------------  end cut  -----------------------
+# Any changes below this line will be discarded by
+# mipsmark. Put your answer between dashed lines.
+
+#################################################
+#                                               #
+#               data segment                    #
+#                                               #
+#################################################
+
+        .data			#*/
+num:	.word  5
+ans:	.asciiz "5! is "
+endl:	.asciiz "\n"
+#
+#/*# End of file real4.a		*/
