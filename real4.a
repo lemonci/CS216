@@ -52,8 +52,8 @@ __start:		# execution starts here  */
 ffact:
 	bgtz  $a0, doit
         li   $v0, 1      # base case, 0! = 1
-        mtc1 $v0, $f11	 # move v0 to the coprocessor $f11
-        cvt.d.w $f12,$f11	# convert $v0 into double and store in $f12
+        mtc1 $v0, $f10	 # move v0 to the coprocessor $f10
+        cvt.d.w $f12,$f10	# convert $v0 into double and store in $f12
         jr   $ra
 doit:
     sub  $sp, $sp, 8           # stack frame
@@ -64,8 +64,8 @@ doit:
     sub  $a0, $a0, 1          #  n-1
     jal  ffact       	# v0 = (n-1)!
     mtc1 $s0,$f0	# move s0 to the coprocessor $f0
-    cvt.d.w $f1,$f0	# convert $s0 into double and store in $f1
-    mul.d   $f12, $f1, $f12
+    cvt.d.w $f2,$f0	# convert $s0 into double and store in $f1
+    mul.d   $f12, $f2, $f12
     #mul  $v0,$s0,$v0     n*(n-1)!
 
     lw   $s0,($sp)       # restore registers from stack
