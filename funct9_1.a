@@ -1,0 +1,162 @@
+#/*# Start of file funct9.a */
+#
+#/*# MIPSMARK 1.0 1/5/98 Copyright 1998 J. Waldron. */
+#
+## Question:
+##
+## $a0 is the address of an array of integers (word)
+## $a1 is the number of words in that array
+##
+## Write a function "sumwords" that returns
+## the sum of words in an integer array $a0
+## that return a non-zero value when passed to the
+## "checknum" function. 
+## Otherwise checknum returns 0.
+## do not rely on the label "mynums" or the 
+## particular implementation of "checkit"
+## 
+
+#/*# Output format must be:		*/
+#/*# "sum of words that pass test = 23"		*/
+#include <stdio.h>       /* for printf in C programs */
+#include <stdlib.h>	 /* for exit() in C programs */
+
+
+#/*##############################################
+#					 	#
+#		text segment			#
+#						#
+#################################################
+
+	.text		
+       	.globl __start 
+__start:		# execution starts here  */
+
+
+	la $a0,ans
+	li $v0,4	# print out string
+	syscall 
+	
+	li $s0, -42	# main can use s registers
+
+	la $a0,morenums
+	lw $a1,length
+	jal countwords	# call student's function
+
+	bne $s0, -42, ouch
+
+	move $a0,$v0
+	li $v0,1	# print out returned value
+	syscall 
+
+	la $a0,endl	# system call to print
+	li $v0,4	# out a newline
+	syscall
+ouch:
+
+	li $v0,10
+	syscall		# au revoir...
+
+
+##
+# checknum is a function which takes a word
+# in a0,  and returns either 0 or non-zero in v0,
+# depending on the result of some test.
+# Do not rely of the particular operation performed
+# by checknum or the registers used.
+# These will be different in other mipsmark cases.
+#
+
+checknum:
+	slti  $t0,$a0,44
+	sgt   $t1,$a0, -30
+        and    $v0, $t0,$t1	
+			#using all the t registers
+	li $t3,-187
+	sw $t3, -4($sp)	   #we can put stuff in "unused" stack space"
+	li $t4,-187
+	li $t5,-187
+	li $t6,-187
+	li $t7,-187
+	li $t8,-187
+	li $t9,-187
+yes:    beqz $v0, no
+	move $v0,$a0	# return the actual number that passed.
+			# that means 0 should also not be counted
+no:	move	$a1, $v0	#using all the a registers
+	move	$a2, $v0
+	move	$a3, $v0
+
+        jr $ra
+
+#/* Any changes above this line will be discarded by
+# mipsmark. Put your answer between dashed lines. */
+#/*-------------- start cut ----------------------- */
+
+#/*  Student's Name:		Account:		*/
+
+
+#/*  Student's Name: Mengqi Li		Account:mli		*/
+countwords:
+    
+    move $t0, $a0     # $t0 will point to elements
+    move $t1, $a1       # $t1 will be the counter
+    li $s0, 0         # $s0 will be the sum
+    
+loop:
+    beqz $t1, end     # exit loop when $t1 is 0
+    lw $a0, ($t0)     # load the word from mynum
+    sub $sp, $sp, 20  # save registers on stack
+    sw $t0, 0 ($sp)
+    sw $t1, 4 ($sp)
+    sw $s0, 8 ($sp)
+    sw $ra, 12 ($sp)
+    sw $a0, 16 ($sp)
+    
+    jal checknum     # call check number
+    
+    lw $t0, 0 ($sp)  # restore the registers from the stack
+    lw $t1, 4 ($sp)
+    lw $s0, 8 ($sp)
+    lw $ra, 12 ($sp)
+    lw $a0, 16 ($sp)
+    add $sp, $sp, 20
+    
+    bnez $v0, notzero
+    
+zero:
+    add $t1, $t1, -1 # decrement counter
+    add $t0, $t0, 4  # increment pointer by word
+    j loop
+
+notzero:
+    add $s0, $s0, $a0  # add the word passed the test to sum
+    j zero
+
+end:
+    move $v0, $s0     # move the sum to $a0
+    jr $ra
+
+
+#/*
+#	j __start	#nasty loop if mips program not exited */
+#/*
+	j __start	#nasty loop if mips program not exited */
+#/*--------------  end cut  -----------------------
+# Any changes below this line will be discarded by
+# mipsmark. Put your answer between dashed lines.
+
+#################################################
+#                                               #
+#               data segment                    #
+#                                               #
+#################################################
+
+        .data			#*/
+morenums:	.word	1, 2, 3, 67, 42, 55, 0, 7, -10, -333, -22
+length:	.word	11
+
+ans:	.asciiz "sum of words that pass test = "
+endl:	.asciiz "\n"
+#
+#/*# End of file funct9.a		*/
